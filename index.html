@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>清禾后花园</title>
+    <!-- 引入 FontAwesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* 梦幻紫粉流光配色体系 */
+            --bg-base: #fbf6fa;
+            --bg-gradient-purple-1: rgba(216, 180, 248, 0.85); 
+            --bg-gradient-pink-1: rgba(255, 204, 225, 0.85);   
+            --bg-gradient-purple-2: rgba(238, 224, 255, 0.7);  
+            --bg-gradient-pink-2: rgba(255, 218, 233, 0.7);    
+            
+            --glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0.2) 100%);
+            --glass-border: rgba(255, 255, 255, 0.65);
+            --glass-shadow: 
+                0 8px 32px rgba(189, 131, 184, 0.08),
+                0 20px 50px rgba(189, 131, 184, 0.12),
+                inset 0 1px 2px rgba(255, 255, 255, 0.8);
+            
+            --text-main: #5c4366; 
+            --text-muted: rgba(92, 67, 102, 0.65);
+            --btn-glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.15) 100%);
+            --btn-hover-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.4) 100%);
+            
+            --accent-color: #b87eb5; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Noto Serif SC", "STKaiti", "KaiTi", serif;
+        }
+
+        body {
+            background: var(--bg-base);
+            background-image: 
+                radial-gradient(at 10% 10%, var(--bg-gradient-purple-1) 0px, transparent 55%),
+                radial-gradient(at 90% 10%, var(--bg-gradient-pink-1) 0px, transparent 55%),
+                radial-gradient(at 90% 90%, var(--bg-gradient-purple-2) 0px, transparent 55%),
+                radial-gradient(at 10% 90%, var(--bg-gradient-pink-2) 0px, transparent 55%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            user-select: none;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px; 
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.9); 
+        }
+
+        .art-text {
+            font-family: "Georgia", "Nimbus Roman No9 L", "Songti SC", "STSong", serif;
+            font-size: 2.3rem;
+            font-weight: 400;
+            font-style: italic;
+            background: linear-gradient(135deg, #8a57ba 0%, #e487a6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-right: 12px;
+            position: relative;
+            padding-right: 4px;
+        }
+
+        .art-text::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background: rgba(184, 126, 181, 0.4); 
+        }
+
+        .glass-container {
+            width: 100%;
+            max-width: 440px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            padding: 24px 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .glass-btn {
+            position: relative;
+            overflow: hidden; 
+            background: var(--btn-glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 14px; 
+            padding: 12px 8px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 0.85rem; 
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(189, 131, 184, 0.03);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            cursor: pointer;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .glass-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; 
+            left: -100%;
+            width: 50%; 
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.6s ease;
+            z-index: 1;
+        }
+
+        .glass-btn i, .glass-btn .btn-text, .glass-btn .card-text {
+            position: relative;
+            z-index: 2;
+        }
+
+        .glass-btn:hover {
+            background: var(--btn-hover-bg);
+            transform: translateY(-4px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 10px 24px rgba(189, 131, 184, 0.15);
+        }
+
+        .glass-btn:hover::before {
+            left: 150%;
+        }
+
+        .glass-btn:hover i {
+            transform: scale(1.15) translateY(-2px);
+        }
+
+        .glass-btn:active {
+            transform: translateY(2px) scale(0.92);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.5) 100%);
+            box-shadow: 0 2px 10px rgba(189, 131, 184, 0.1);
+            transition: all 0.1s ease; 
+            border-color: var(--accent-color);
+        }
+
+        .full-width {
+            grid-column: span 2;
+            flex-direction: row;
+            gap: 12px;
+            padding: 14px 20px;
+            justify-content: flex-start;
+        }
+
+        .glass-btn i {
+            font-size: 1.15rem; 
+            margin-bottom: 6px;
+            color: var(--accent-color);
+            opacity: 0.95;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .full-width i {
+            margin-bottom: 0;
+            font-size: 1.25rem;
+        }
+
+        #editable-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+            border: 1px dashed rgba(184, 126, 181, 0.5);
+            justify-content: center;
+        }
+
+        .card-text {
+            width: 100%;
+            text-align: center;
+            outline: none;
+            word-break: break-all;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+        }
+
+        .glass-btn.editing {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--accent-color) !important;
+            box-shadow: 0 0 20px rgba(228, 135, 166, 0.3);
+            transform: scale(1.02);
+        }
+
+        .glass-btn.editing .card-text {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        .footer-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 25px;
+            z-index: 10;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .love-quote {
+            font-family: "STKaiti", "KaiTi", serif;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 12px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 5px rgba(255, 255, 255, 0.9);
+            max-width: 92%;
+            line-height: 1.6;
+        }
+
+        .copyright {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+        }
+
+        #toast {
+            visibility: hidden;
+            min-width: 180px;
+            background: rgba(92, 67, 102, 0.85);
+            color: #fff;
+            text-align: center;
+            border-radius: 14px;
+            padding: 10px 18px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 30px;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            transition: opacity 0.4s, top 0.4s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            top: 45px;
+        }
+        
+        #loader {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            background: rgba(255,255,255,0.7);
+            padding: 5px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            z-index: 2000;
+            display: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader"><i class="fa-solid fa-spinner fa-spin"></i> 同步数据中...</div>
+
+    <div class="header">
+        <h1><span class="art-text">清禾</span>后花园</h1>
+    </div>
+
+    <div class="glass-container">
+        <div class="btn-grid">
+
+            <button id="btn-gv" class="glass-btn full-width" onclick="executeAction('btn-gv')" ondblclick="editAction('btn-gv')">
+                <i class="fa-solid fa-phone-volume"></i>
+                <span class="btn-text">+1 5134528504</span>
+            </button>
+
+            <button id="btn-tg" class="glass-btn full-width" onclick="executeAction('btn-tg')" ondblclick="editAction('btn-tg')">
+                <i class="fa-brands fa-telegram"></i>
+                <span class="btn-text">Telegram</span>
+            </button>
+
+            <button id="btn-sig1" class="glass-btn" onclick="executeAction('btn-sig1')" ondblclick="editAction('btn-sig1')">
+                <i class="fa-solid fa-comment-dots"></i>
+                <span class="btn-text">Signal</span>
+            </button>
+
+            <button id="btn-sig2" class="glass-btn" onclick="executeAction('btn-sig2')" ondblclick="editAction('btn-sig2')">
+                <i class="fa-solid fa-comment-dots"></i>
+                <span class="btn-text">Signal</span>
+            </button>
+
+            <button id="btn-wx1" class="glass-btn" onclick="executeAction('btn-wx1')" ondblclick="editAction('btn-wx1')">
+                <i class="fa-brands fa-weixin"></i>
+                <span class="btn-text">WeChat</span>
+            </button>
+
+            <button id="btn-wx2" class="glass-btn" onclick="executeAction('btn-wx2')" ondblclick="editAction('btn-wx2')">
+                <i class="fa-brands fa-weixin"></i>
+                <span class="btn-text">WeChat</span>
+            </button>
+
+            <button id="btn-wx3" class="glass-btn" onclick="executeAction('btn-wx3')" ondblclick="editAction('btn-wx3')">
+                <i class="fa-brands fa-weixin"></i>
+                <span class="btn-text">WeChat</span>
+            </button>
+
+            <button id="btn-wx4" class="glass-btn" onclick="executeAction('btn-wx4')" ondblclick="editAction('btn-wx4')">
+                <i class="fa-brands fa-weixin"></i>
+                <span class="btn-text">WeChat</span>
+            </button>
+
+            <button id="btn-wx5" class="glass-btn" onclick="executeAction('btn-wx5')" ondblclick="editAction('btn-wx5')">
+                <i class="fa-brands fa-weixin"></i>
+                <span class="btn-text">WeChat</span>
+            </button>
+
+            <button id="btn-wx6" class="glass-btn" onclick="executeAction('btn-wx6')" ondblclick="editAction('btn-wx6')">
+                <i class="fa-brands fa-weixin"></i>
+                <span class="btn-text">WeChat</span>
+            </button>
+
+            <button id="btn-qq1" class="glass-btn" onclick="executeAction('btn-qq1')" ondblclick="editAction('btn-qq1')">
+                <i class="fa-brands fa-qq"></i>
+                <span class="btn-text">QQ</span>
+            </button>
+
+            <button id="btn-qq2" class="glass-btn" onclick="executeAction('btn-qq2')" ondblclick="editAction('btn-qq2')">
+                <i class="fa-brands fa-qq"></i>
+                <span class="btn-text">QQ</span>
+            </button>
+
+            <button id="btn-qq3" class="glass-btn" onclick="executeAction('btn-qq3')" ondblclick="editAction('btn-qq3')">
+                <i class="fa-brands fa-qq"></i>
+                <span class="btn-text">QQ</span>
+            </button>
+
+            <button id="btn-qq4" class="glass-btn" onclick="executeAction('btn-qq4')" ondblclick="editAction('btn-qq4')">
+                <i class="fa-brands fa-qq"></i>
+                <span class="btn-text">QQ</span>
+            </button>
+
+            <button id="btn-mail1" class="glass-btn" onclick="executeAction('btn-mail1')" ondblclick="editAction('btn-mail1')">
+                <i class="fa-solid fa-envelope"></i>
+                <span class="btn-text">Email</span>
+            </button>
+
+            <button id="btn-mail2" class="glass-btn" onclick="executeAction('btn-mail2')" ondblclick="editAction('btn-mail2')">
+                <i class="fa-solid fa-envelope"></i>
+                <span class="btn-text">Email</span>
+            </button>
+
+            <!-- 订阅链接区域 -->
+            <button id="btn-sub1" class="glass-btn" onclick="executeAction('btn-sub1')" ondblclick="editAction('btn-sub1')">
+                <i class="fa-solid fa-satellite-dish"></i>
+                <span class="btn-text">清禾</span>
+            </button>
+
+            <button id="btn-sub2" class="glass-btn" onclick="executeAction('btn-sub2')" ondblclick="editAction('btn-sub2')">
+                <i class="fa-solid fa-satellite-dish"></i>
+                <span class="btn-text">清禾</span>
+            </button>
+
+            <div class="glass-btn full-width" id="editable-card" ondblclick="enableMemoEdit(this)">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <div class="card-text">双击并输入密码可编辑备忘录</div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-wrapper">
+        <div id="love-quote" class="love-quote">加载中...</div>
+        <div class="copyright">&mdash;&nbsp; 清禾 &nbsp;&mdash;</div>
+    </div>
+
+    <div id="toast">提示信息</div>
+
+    <script>
+        // ==========================================
+        // 核心配置区：请在这里填入您的 GitHub 信息
+        // ==========================================
+        const GITHUB_OWNER = 'zkaydhl'; // 您的 GitHub 用户名
+        const GITHUB_REPO = 'zkaydhl.github.io';       // 您的仓库名称
+        const CONFIG_FILE_PATH = 'config.json';     
+        const BRANCH = 'main';                      
+
+        // 默认配置回退模板 (初次启动或断网时使用)
+        const defaultActions = {
+            'btn-gv': { type: 'tel', value: '+15134528504', labelName: 'Google Voice 拨号', updateText: true },
+            'btn-tg': { type: 'url', value: 'https://t.me/S_ohye', labelName: 'Telegram 链接', updateText: false },
+            'btn-sig1': { type: 'url', value: 'https://signal.me/#eu/Sohye.01', labelName: 'Signal 1 链接', updateText: false },
+            'btn-sig2': { type: 'url', value: 'https://signal.me/#eu/XSohye.01', labelName: 'Signal 2 链接', updateText: false },
+            'btn-wx1': { type: 'copy', value: 'S_ohye', labelName: 'WeChat 账号', updateText: true },
+            'btn-wx2': { type: 'copy', value: 'GS_ohye', labelName: 'WeChat 账号', updateText: true },
+            'btn-wx3': { type: 'copy', value: 'X_Sohye', labelName: 'WeChat 账号', updateText: true },
+            'btn-wx4': { type: 'copy', value: 'LSD_Awaits', labelName: 'WeChat 账号', updateText: true },
+            'btn-wx5': { type: 'copy', value: 'XSohye', labelName: 'WeChat 账号', updateText: true },
+            'btn-wx6': { type: 'copy', value: 'GSohye', labelName: 'WeChat 账号', updateText: true },
+            'btn-qq1': { type: 'url', value: 'https://qm.qq.com/q/sN4qlwcFaK', labelName: 'QQ 1 链接', updateText: false },
+            'btn-qq2': { type: 'url', value: 'https://qm.qq.com/q/KRDTjjZCuW', labelName: 'QQ 2 链接', updateText: false },
+            'btn-qq3': { type: 'url', value: 'https://qm.qq.com/q/6M3QXQtas8', labelName: 'QQ 3 链接', updateText: false },
+            'btn-qq4': { type: 'url', value: 'https://qm.qq.com/q/kG9SsHCI80', labelName: 'QQ 4 链接', updateText: false },
+            'btn-mail1': { type: 'email', value: 'zkaydhl@gmail.com', labelName: 'Gmail 1 邮箱', updateText: false },
+            'btn-mail2': { type: 'email', value: 'baoxbing@gmail.com', labelName: 'Gmail 2 邮箱', updateText: false },
+            // 新增订阅链接配置（updateText 设为 false 以保持标题为清禾不变）
+            'btn-sub1': { type: 'copy', value: 'https://link.oness.xyz/link/U3RpRccH6QoAuIbw?clash=4', labelName: '翻墙订阅链接 1', updateText: false },
+            'btn-sub2': { type: 'copy', value: 'https://liangxin.xyz/api/v1/liangxin?OwO=bfd1cb6c35304d706f3be5eddb9ec76f', labelName: '翻墙订阅链接 2', updateText: false },
+            
+            'memo-card': { type: 'memo', value: '双击并输入密码可编辑备忘录', labelName: '备忘录', updateText: false }
+        };
+
+        // 全局变量存放从 GitHub 拉取的最新状态
+        let currentConfig = defaultActions;
+        let fileSha = null; 
+        const loader = document.getElementById('loader');
+
+        const encodeBase64 = (str) => btoa(unescape(encodeURIComponent(str)));
+        const decodeBase64 = (str) => decodeURIComponent(escape(atob(str)));
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            initLoveQuote(); 
+            
+            if (GITHUB_OWNER === 'YOUR_GITHUB_USERNAME') {
+                renderUI(currentConfig);
+                return;
+            }
+
+            loader.style.display = 'block';
+            try {
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CONFIG_FILE_PATH}?ref=${BRANCH}&t=${new Date().getTime()}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    fileSha = data.sha;
+                    currentConfig = JSON.parse(decodeBase64(data.content));
+                    
+                    // 新增按钮向下兼容：如果云端 config.json 是老的，补充新的配置项
+                    if (!currentConfig['btn-sub1']) {
+                        currentConfig['btn-sub1'] = defaultActions['btn-sub1'];
+                        currentConfig['btn-sub2'] = defaultActions['btn-sub2'];
+                    }
+                }
+            } catch(e) {
+                console.warn("读取远端配置失败，使用默认配置。");
+            } finally {
+                loader.style.display = 'none';
+                renderUI(currentConfig);
+            }
+        });
+
+        function renderUI(config) {
+            for (const [id, item] of Object.entries(config)) {
+                if (id === 'memo-card') {
+                    const memoNode = document.querySelector('#editable-card .card-text');
+                    if (memoNode) memoNode.innerHTML = item.value;
+                } else if (item.updateText) {
+                    const btn = document.getElementById(id);
+                    if (btn) {
+                        const textSpan = btn.querySelector('.btn-text');
+                        if (textSpan) textSpan.innerText = item.value;
+                    }
+                }
+            }
+        }
+
+        function executeAction(id) {
+            const config = currentConfig[id];
+            if (!config) return;
+
+            if (config.type === 'tel') {
+                copyText(config.value, '号码 ' + config.value);
+                setTimeout(() => { window.location.href = 'tel:' + config.value; }, 600);
+            } else if (config.type === 'url') {
+                if (id.startsWith('btn-qq')) {
+                    showToast('正在前往 QQ 会话');
+                    setTimeout(() => { window.location.href = config.value; }, 400);
+                } else {
+                    window.location.href = config.value;
+                }
+            } else if (config.type === 'copy') {
+                copyText(config.value, config.labelName);
+            } else if (config.type === 'email') {
+                window.location.href = 'mailto:' + config.value;
+            }
+        }
+
+        async function editAction(id) {
+            const config = currentConfig[id];
+            if (!config) return;
+
+            if (prompt("请输入管理员密码：") !== "admin") {
+                alert("密码错误，拒绝修改！");
+                return;
+            }
+
+            const newVal = prompt(`正在修改 ${config.labelName}：\n当前值：${config.value}\n\n请输入新的目标地址/账号/订阅/邮箱：`, config.value);
+            if (newVal !== null && newVal.trim() !== '' && newVal !== config.value) {
+                config.value = newVal.trim();
+                await syncToGitHub(id);
+            }
+        }
+
+        function enableMemoEdit(container) {
+            const textNode = container.querySelector('.card-text');
+            if (textNode.getAttribute('contenteditable') === 'true') return;
+            
+            if (prompt("请输入编辑密码：") !== "admin") {
+                alert("密码错误，身份验证失败！");
+                return;
+            }
+
+            textNode.setAttribute('contenteditable', 'true');
+            container.classList.add('editing');
+            textNode.focus();
+            showToast("解锁成功！点击空白处自动同步至 GitHub");
+            
+            textNode.addEventListener('blur', async function autoSave() {
+                textNode.setAttribute('contenteditable', 'false');
+                container.classList.remove('editing');
+                textNode.removeEventListener('blur', autoSave);
+                
+                const newHtml = textNode.innerHTML;
+                if (!currentConfig['memo-card']) currentConfig['memo-card'] = { type: 'memo', labelName: '备忘录' };
+                
+                if (currentConfig['memo-card'].value !== newHtml) {
+                    currentConfig['memo-card'].value = newHtml;
+                    await syncToGitHub('memo-card');
+                }
+            });
+        }
+
+        async function syncToGitHub(elementId) {
+            if (GITHUB_OWNER === 'YOUR_GITHUB_USERNAME') {
+                alert("请先在源码底部配置您的 GITHUB_OWNER 和 GITHUB_REPO。");
+                return;
+            }
+
+            let token = localStorage.getItem('qinghe_gh_token');
+            if (!token) {
+                token = prompt("检测到首次动态写入，请输入您的 GitHub Personal Access Token (将安全保存在本地浏览器)：");
+                if (!token) { showToast("未提供 Token，已取消同步。"); return; }
+                localStorage.setItem('qinghe_gh_token', token);
+            }
+
+            loader.style.display = 'block';
+            showToast("正在提交修改至远端数据库...");
+
+            try {
+                const contentStr = JSON.stringify(currentConfig, null, 2);
+                const bodyData = {
+                    message: `Update config from Qinghe Garden UI: ${elementId}`,
+                    content: encodeBase64(contentStr),
+                    branch: BRANCH
+                };
+                if (fileSha) bodyData.sha = fileSha;
+
+                const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${CONFIG_FILE_PATH}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                if (res.ok) {
+                    const responseData = await res.json();
+                    fileSha = responseData.content.sha; 
+                    renderUI(currentConfig); 
+                    showToast("✅ 同步成功！全局数据已更新。");
+                } else {
+                    const errorMsg = await res.json();
+                    if(errorMsg.message.includes('Bad credentials')) {
+                        localStorage.removeItem('qinghe_gh_token'); 
+                        alert("Token 无效或已过期，请重新刷新网页并输入正确的 Token。");
+                    } else {
+                        alert("同步失败: " + errorMsg.message);
+                    }
+                }
+            } catch (err) {
+                alert("网络请求失败，请检查您的网络环境。");
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        function copyText(text, typeName) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => { showToast(`已复制 ${typeName}`); }).catch(() => fallbackCopyText(text, typeName));
+            } else { fallbackCopyText(text, typeName); }
+        }
+
+        function fallbackCopyText(text, typeName) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; textArea.style.opacity = "0";
+            document.body.appendChild(textArea);
+            textArea.focus(); textArea.select();
+            try { document.execCommand('copy'); showToast(`已复制 ${typeName}`); } catch (err) { showToast("复制失败，请重试"); }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2200);
+        }
+
+        const loveQuotes = [
+            "“你的一颦一笑，是我在这人间见过的最美风景。”", "“我爱你，如鲸向海，如鸟投林，退无可退，避无可避。”", "“你是我平淡岁月里，最温柔的星辰。”", "“遇见你之后，世间所有的浪漫都有了具体的模样。”", "“这世界纵然喧嚣，我的眼底只偏爱你。”", 
+            "“你什么都不用做，就赢得了我所有的温柔。”", "“无论山野万里，你都是我藏在微风里的欢喜。”", "“我将永远忠于自己，披星戴月奔向你。”", "“我的心曾是荒芜的孤岛，直到你似飞鸟般途经。”", "“我爱你，胜过这世间一切的诗意与繁华。”",
+            "“你是大梦初醒，也是我余生所求。”", "“晚风轻踩着云朵，晚霞在贩卖快乐，而我只想拥抱你。”", "“我见过银河，却依旧只爱你这一颗星。”", "“人间烟火，山河远阔，无一是你，无一不是你。”", "“我喜欢你，胜于昨日，略匮明朝。”",
+            "“你是我疲惫生活中唯一的英雄梦想。”", "“想借你心头的月亮，照亮我半生的迷茫。”", "“你的名字，是我读过最短的情诗。”", "“朝看破晓暮看云，我的眼里全是你。”", "“你存在的本身，就是我热爱这个世界的理由。”",
+            "“春风十里，不如你的一抹笑意。”", "“如果思念有声音，那你一定震耳欲聋。”", "“我跨过山水万程，只为与你相逢。”", "“你是我的半截诗，不许别人更改一个字。”", "“我想和你一起，看尽这世间的日升月落。”",
+            "“世界需要拯救，而我只需要你。”", "“你是我藏在微风里的欢喜，也是我跌入梦境的星河。”", "“我将爱意深藏于风中，只期盼它能轻抚你的脸颊。”", "“你是我猝不及防的心动，也是我始料未及的惊鸿。”", "“遇见你，是我这漫长一生中最美好的意外。”",
+            "“我对你的爱，就像这不落的星辰，永恒且璀璨。”", "“你眼眼中春与秋，胜过我见过爱过的一切山川与河流。”", "“想把你藏在口袋里，谁也不给看。”", "“我的世界本来是黑白的，直到你带着色彩闯入。”", "“这世间青山灼灼星光杳杳，也抵不过你眉目间的星辰点点。”",
+            "“因为你，我才想要成为更好的人。”", "“你是我绕过山河错落，才找到的人间烟火。”", "“我的灵魂中有一片荒芜，直到你来，它开满了鲜花。”", "“只要你在我身边，即使是雨天，也是阳光明媚的日子。”", "“我曾以为孤独是人生的常态，直到遇见了你。”",
+            "“我对你的喜欢，就像风吹过海面，不露痕迹，却波澜壮阔。”", "“你是我生命中的那道光，驱散了我所有的阴霾。”", "“在这个瞬息万变的世界里，我对你的心意永远不会改变。”", "“你是我的今天，以及所有的明天。”", "“听到你的名字，我的心跳就会不由自主地加快。”",
+            "“我想牵着你的手，走过每一个春夏秋冬。”", "“你不仅是我的挚爱，更是我的灵魂伴侣。”", "“有了你，我的心就有了停靠的港湾。”", "“对于世界而言，你是一个人；但对于我而言，你是整个世界。”", "“我爱你，不光因为你的样子，还因为和你在一起时我的样子。”",
+            "“你是我翘首以盼的惊喜，也是我义无反顾的南墙。”", "“风行过万里，月沉过海底，我遇见了这世上唯一契合的你。”", "“你是我纸短情长的雨季，也是我往后余生的晴空。”", "“我希望我的余生，全都是关于你的篇章。”", "“这漫长的一生，我只想与你虚度光阴。”",
+            "“你是我写不完的诗篇，也是我做不完的美梦。”", "“在所有人事已非的景色里，我最喜欢你。”", "“你是神明赐予我这凡夫俗子最珍贵的礼物。”", "“我爱你，从心动到古稀，从清晨到日暮。”", "“你的出现，让我原谅了之前生活对我的所有刁难。”",
+            "“星河滚烫，你是人间理想；夜风微凉，你是人间星光。”", "“我愿化作一阵春风，只为吹拂你的眉眼。”", "“你是我心底最柔软的秘密，也是我最骄傲的炫耀。”", "“与你相遇，好运降临。我这一生，只为你心动。”", "“你是我明目张胆的偏爱，也是我众所周知的例外。”",
+            "“世间的温柔皆如干净的云朵和你。”", "“我的心是旷野的鸟，在你的眼睛里找到了它的天空。”", "“想把你写在风里，这样全世界都能读到我的爱意。”", "“你是我最想留住的幸运，也是我最不舍的温柔。”", "“只因有你在，我的生命才显得如此完整。”",
+            "“我曾踏月而来，只因你在山中。”", "“纵然世间有万般好，也抵不过你回眸一笑。”", "“你是我不愿醒来的梦境，也是我义无反顾的现实。”", "“我把所有的温柔都设置成了仅你可见。”", "“你的声音，是我听过最动听的旋律。”",
+            "“我对你的爱，与日俱增，至死不渝。”", "“你是我笔下最生动的故事，也是我心中最深的牵挂。”", "“我想把世界上最美好的事物都捧到你面前，虽然你本身就是美好。”", "“你是我漫长黑夜里的灯塔，指引我走向黎明。”", "“与你在一起的每一秒，都如同星辰般璀璨。”",
+            "“你是我的日月星辰，也是我的山川湖海。”", "“我对你的思念，如同疯长的藤蔓，缠绕了我的整个心房。”", "“你是我跨越千山万水，也要去寻找的那份归属。”", "“我爱你，毫无保留，倾尽所有。”", "“你的眼眸，是我沉沦的深渊。”",
+            "“你是我人生这道大题里，最完美的答案。”", "“这浩瀚宇宙中，我只愿做你一个人的卫星。”", "“你是我岁岁年年的朝朝暮暮，也是我日日夜夜的思思念念。”", "“我的世界因为你，才有了光怪陆离的色彩。”", "“你是我无法割舍的软肋，也是我无坚冲摧的铠甲。”",
+            "“这世间的美好，有千万种，但你却是最特别的那一种。”", "“你是我心尖上的朱砂痣，也是我眼底的白月光。”", "“我愿用一生的时间，去兑现对你的每一次承诺。”", "“你是我无论如何都不想错过的风景。”", "“你的存在，就是我对抗这个荒诞世界的底气。”",
+            "“我爱你，不问归期，不远万里。”", "“你是我最深切的渴望，也是我最长情的告白。”", "“与你相伴的日子，才叫生活；没有你的日子，只能算生存。”", "“你是我无边的暗夜里，唯一闪烁的星辰。”", "“我对你的爱，如同春雨般润物细无声。”",
+            "“你是我生命交响乐中，最华丽的乐章。”", "“我愿做你的避风港，为你遮挡所有的风雨。”", "“你的笑容，能治愈我所有的疲惫与忧伤。”", "“你是我此生最美的风景，也是我永远的归宿。”", "“我爱你，跨越了时间与空间的界限。”",
+            "“你是我前世今生，注定的缘分。”", "“我的心跳，只为你一个人而加速。”", "“你是我眼中唯一的焦点，也是我心中永恒的主题。”", "“我愿化作一缕阳光，温暖你的每一个清晨。”", "“你是我永远也读不厌的一本书。”",
+            "“你是我最想守护的珍宝，不容任何人觊觎。”", "“我对你的感情，比海还深，比天还高。”", "“你的每一次呼吸，都牵动着我的神经。”", "“你是我此生唯一不变的信仰。”", "“我爱你，这不仅是一句誓言，更是我一生的行动。”",
+            "“你是我荒凉沙漠中，唯一的绿洲。”", "“你是我疲惫旅途上的终点，也是我重新出发的起点。”", "“我的灵魂，因为你的触碰而变得丰盈。”", "“你是我生命里最耀眼的火花，照亮了我的整个世界。”", "“我愿与你执子之手，与子偕老。”",
+            "“你的每一个眼神，都能让我沉醉其中。”", "“你是我梦寐以求的未来，也是我无法忘怀的过去。”", "“我对你的爱，如同燃烧的火焰，永不熄灭。”", "“你是我这辈子，最不后悔的遇见。”", "“我爱你，直到地老天荒，海枯石烂。”",
+            "“你是我生命画卷上，最浓墨重彩的一笔。”", "“你是我心中最深的烙印，永远无法抹去。”", "“我的世界，因为你的存在而变得有意义。”", "“你是我唯一的心之所向，也是我所有的梦之所往。”", "“我愿做你的影子，永远陪伴在你的身边。”",
+            "“你的喜怒哀乐，是我最在乎的事情。”", "“你是我生命中不可或缺的一部分，如同空气和水。”", "“我对你的爱，如同涓涓细流，汇聚成爱的海洋。”", "“你是我最想共度余生的人，没有之一。”", "“我爱你，千言万语都无法表达我的心意。”",
+            "“你是我在人海中，一眼就能认出的那个人。”", "“你是我漫长人生中，最美丽的插曲。”", "“我的心，只有在你那里才能找到安宁。”", "“你是我生命中最动听的歌，我愿为你吟唱一生。”", "“我愿为你放下一切，只为与你相守。”",
+            "“你的怀抱，是我最温暖的避风港。”", "“你是我在这喧嚣世界中，唯一想要寻觅的静谧。”", "“我对你的爱，如同磐石般坚定，不可动摇。”", "“你是我生命中最璀璨的明珠，我愿用一生去呵护。”", "“我爱你，胜过爱自己。”",
+            "“你是我心中永远的女神/男神，无人能取代。”", "“你的每一次微笑，都能让我的世界花开满园。”", "“你是我生命里最美的诗篇，我愿为你写下永恒的诗句。”", "“我的灵魂，只为你而颤抖。”", "“你是我唯一想牵手走过一生的人。”",
+            "“我对你的爱，如同繁星般数不胜数。”", "“你是我生命中最珍贵的礼物，我会倍加珍惜。”", "“你是我心中最温柔的角落，只为你敞开。”", "“我愿为你撑起一片天，让你自由飞翔。”", "“我爱你，这不仅是三个字，更是我一生的承诺。”",
+            "“你是我在这个世界上，最深的羁绊。”", "“你是我生命中最美妙的旋律，我愿为你演奏一生。”", "“我的心，永远为你跳动。”", "“你是我唯一想要依靠的肩膀。”", "“我爱你，无论贫穷还是富有，无论疾病还是健康。”",
+            "“你是我生命中最绚烂的烟火，照亮了我的整个夜空。”", "“你是我心中最深的执念，永远无法割舍。”", "“我愿为你付出一切，哪怕是生命的代价。”", "“你是我在这浩瀚宇宙中，唯一想要追寻的星光。”", "“我对你的爱，如同江河般奔流不息。”",
+            "“你是我生命中最美丽的意外，让我的人生变得丰富多彩。”", "“你是我心中最柔软的弦，只有你能拨动它。”", "“我愿与你共度每一个平凡的日常，直到白发苍苍。”", "“你是我唯一想要分享喜怒哀乐的人。”", "“我爱你，直到时间的尽头。”",
+            "“你是我生命中最温暖的阳光，驱散了我内心的严寒。”", "“你是我心中最坚定的信仰，指引我前行的方向。”", "“我愿做你的避风港，让你在疲惫时有个依靠。”", "“你是我在这世上最深的牵挂，也是我最大的软肋。”", "“我对你的爱，如同高山般巍峨，不可撼动。”",
+            "“你是我生命中最美丽的风景线，让我流连忘返。”", "“你是我心中最珍贵的宝藏，我会用一生去守护。”", "“我愿为你遮风挡雨，让你在我的庇护下安然无恙。”", "“你是我唯一想要共度一生的人，无可替代。”", "“我爱你，这是一种深入骨髓的本能。”",
+            "“你是我生命中最甜蜜的负担，我甘之如饴。”", "“你是我心中最明亮的灯塔，照亮了我前行的道路。”", "“我愿为你倾尽所有，只为换你一世欢颜。”", "“你是我在这茫茫人海中，唯一想要紧紧抓住的手。”", "“我对你的爱，如同烈火般燃烧，永不熄灭。”",
+            "“你是我生命中最美丽的相遇，让我的人生不再孤单。”", "“你是我心中最温柔的港湾，让我在疲惫时能够停泊。”", "“我愿与你携手共进，面对未来的风风雨雨。”", "“你是我唯一想要白头偕老的人。”", "“我爱你，直到宇宙毁灭，万物凋零。”",
+            "“你是我写给这世界最美的情书。”", "“想和你去海边吹风，更想和你度过余生。”", "“你在我身边的时候，我从未羡慕过任何人。”", "“遇见你，就像是在沙漠里遇见了绿洲。”", "“我的每一笔勾勒，全是你动人的轮廓。”",
+            "“你的笑，是我最百看不厌的风景。”", "“风是轻的，云是软的，你是甜的。”", "“我对你的喜欢，不仅是一见钟情，更是日久生情。”", "“你就是我拒绝所有人的理由。”", "“我的心里装满了你，再也容不下别人。”",
+            "“你是我生命里的奇迹，让我相信了爱情的存在。”", "“你是我唯一的偏袒和例外。”", "“想和你走在夕阳下，走到白发苍苍。”", "“你是我每天早晨醒来的动力。”", "“我的世界因为你而变得完整。”",
+            "“你是我心底最深的温柔，也是我最大的骄傲。”", "“你是我无论何时何地都能想起来的甜蜜。”", "“你的存在，让我觉得每一天都充满了希望。”", "“你是我最想去了解的未知世界。”", "“我愿意做你永远的听众，倾听你的每一个故事。”",
+            "“你是我生命中最美的诗篇，百读不厌。”", "“你是我唯一的灵魂归宿。”", "“想把你藏在心里，只属于我一个人。”", "“你是我所有的心动和欢喜。”", "“我的爱，只为你一个人绽放。”",
+            "“你是我在茫茫人海中找到的独一无二的珍宝。”", "“你是我心中永远的白月光，纯洁而明亮。”", "“你是我最想共度每一个明天的人。”", "“你的每一个拥抱，都让我感到无比的安心。”", "“你是我生命中最不可或缺的一部分。”",
+            "“我愿用一生的时间去证明对你的爱。”", "“你是我在这世界上的唯一，无可替代。”", "“你是我心中最美的风景，无需滤镜的修饰。”", "“你是我所有的动力和希望。”", "“我的心，早已被你牢牢占据。”",
+            "“你是我最想深情拥抱的未来。”", "“你是我唯一的专属天使，守护着我的心。”", "“想和你一起看遍世间的繁华，再回归平淡。”", "“你是我生命中最美的意外，让我措手不及却又满心欢喜。”", "“你是我最深的牵挂，也是我最大的幸福。”",
+            "“你是我心中永远的唯一，无人能及。”", "“你是我所有的喜怒哀乐，牵动着我的每一根神经。”", "“我愿做你的避风港，为你遮挡所有的风雨和寒冷。”", "“你是我生命中最闪耀的星辰，照亮了我的夜空。”", "“你是我最想紧紧握住的手，永远不放开。”",
+            "“你是我心中的唯一，也是我永远的牵挂。”", "“你的笑容是我一天中最美好的开始。”", "“我想和你一起变老，一起看日出日落。”", "“你是我生命里的光，照亮了我前行的路。”", "“我对你的爱，如同时光一样长久。”",
+            "“你是我唯一的偏爱，也是我最深的眷恋。”", "“你是我所有的梦想和希望。”", "“你的存在，让我觉得这个世界充满了爱。”", "“你是我最想去探索的奇妙旅程。”", "“我愿做你的守护者，永远保护你。”",
+            "“你是我生命中最美的风景，让我流连忘返。”", "“你是我唯一的灵魂伴侣，懂我所有的悲欢离合。”", "“想把你写进我的故事里，成为最美的一页。”", "“你是我所有的心动和期待。”", "“我的爱，只为你一个人存在。”",
+            "“你是我在茫茫人海中找到的唯一。”", "“你是我心中永远的朱砂痣，深深地印在我的心里。”", "“你是我最想共度每一个春夏秋冬的人。”", "“你的每一个亲吻，都让我感到无比的甜蜜。”", "“你是我生命中最不可或缺的灵魂。”",
+            "“我愿用一生的时间去陪伴你，爱你。”", "“你是我在这世界上的唯一，独一无二。”", "“你是我心中最美的画面，永远定格在我的脑海里。”", "“你是我所有的力量和勇气。”", "“我的心，早已属于你一个人。”",
+            "“你是我最想深情注视的未来。”", "“你是我唯一的专属宝贝，让我爱不释手。”", "“想和你一起走过千山万水，看遍世间美景。”", "“你是我生命中最美的惊喜，让我感激不尽。”", "“你是我最深的牵挂，也是我最大的依靠。”",
+            "“你是我心中永远的唯一，无人可替。”", "“你是我所有的喜怒哀乐，是我生活的全部。”", "“我愿做你的坚强后盾，支持你的每一个决定。”", "“你是我生命中最闪耀的阳光，温暖了我的心房。”", "“你是我最想紧紧拥抱的爱人，永远不分离。”",
+            "“每一次看到你，我的心都会漏跳一拍。”", "“你的声音是我听过最美的音乐。”", "“我想和你一起创造更多美好的回忆。”", "“你是我生命中最重要的人，没有你我不知道该怎么办。”", "“我对你的爱，如同宇宙般深邃。”",
+            "“你是我唯一的宠爱，也是我最深的眷恋。”", "“你是我所有的憧憬和向往。”", "“你的存在，让我觉得生活充满了意义。”", "“你是我最想去珍惜的无价之宝。”", "“我愿做你的避风港，让你永远感到安全。”",
+            "“你是我生命中最美的诗句，让我读你千遍也不厌倦。”", "“你是我唯一的灵魂知己，懂我所有的心思。”", "“想把你藏在我的梦里，永远不醒来。”", "“你是我所有的心动和迷恋。”", "“我的爱，只为你一个人燃烧。”",
+            "“你是我在茫茫人海中一眼相中的人。”", "“你是我心中永远的牵挂，无论走到哪里。”", "“你是我最想共度每一个日日夜夜的人。”", "“你的每一个微笑，都让我感到无比的幸福。”", "“你是我生命中最不可或缺的伴侣。”",
+            "“我愿用一生的时间去了解你，懂你。”", "“你是我在这世界上的唯一，无可比拟。”", "“你是我心中最美的星空，让我仰望一生。”", "“你是我所有的信念和坚持。”", "“我的心，早已为你跳动不止。”",
+            "“你是我最想深情拥吻的未来。”", "“你是我唯一的专属爱人，让我倾尽所有。”", "“想和你一起慢慢变老，直到地老天荒。”", "“你是我生命中最美的缘分，让我珍惜一生。”", "“你是我最深的牵挂，也是我最大的财富。”",
+            "“你是我心中永远的唯一，至死不渝。”", "“你是我所有的喜怒哀乐，是我生命的色彩。”", "“我愿做你的避风港，让你永远感到温暖。”", "“你是我生命中最闪耀的钻石，璀璨夺目。”", "“你是我最想紧紧牵手的人，共度一生。”",
+            "“你的眼神有一种魔力，让我无法自拔。”", "“我想和你一起看星星，一起许下心愿。”", "“你是我生命中最美的相遇，让我心存感激。”", "“我对你的爱，如同繁星般闪耀。”", "“你是我唯一的偏执，也是我最深的眷恋。”",
+            "“你是我所有的渴望和期盼。”", "“你的存在，让我觉得世界充满了奇迹。”", "“你是我最想去呵护的脆弱。”", "“我愿做你的避风港，让你永远感到被爱。”", "“你是我生命中最美的画卷，让我百看不厌。”",
+            "“你是我唯一的灵魂伴侣，懂我所有的沉默。”", "“想把你写进我的日记里，成为永恒的记忆。”", "“你是我所有的心动和冲动。”", "“我的爱，只为你一个人付出。”", "“你是我在茫茫人海中找到的命中注定。”",
+            "“你是我心中永远的挚爱，无论时光流转。”", "“你是我最想共度每一个瞬间的人。”", "“你的每一个动作，都让我感到无比的迷人。”", "“你是我生命中最不可或缺的另一半。”", "“我愿用一生的时间去陪伴你，照顾你。”",
+            "“你是我在这世界上的唯一，不可替代。”", "“你是我心中最美的风景，让我流连忘返。”", "“你是我所有的勇气和力量。”", "“我的心，早已为你沦陷。”", "“你是我最想深情陪伴的未来。”",
+            "“你是我唯一的专属伴侣，让我感到无比幸福。”", "“想和你一起走过风风雨雨，共同迎接彩虹。”", "“你是我生命中最美的奇迹，让我相信了缘分。”", "“你是我最深的牵挂，也是我最大的软肋。”", "“你是我心中永远的唯一，不可动摇。”",
+            "“你是我所有的喜怒哀乐，是我人生的意义。”", "“我愿做你的避风港，让你永远感到安宁。”", "“你是我生命中最闪耀的光芒，照亮了我的整个世界。”", "“你是我最想紧紧依偎的爱人，永远不放手。”", "“无论未来怎样，我都只想牵着你的手走下去。”",
+            "“风情万种是你，可爱娇嗔也是你，我的整颗心更是你。”", "“你不用刻意发光，我的目光自然会被你吸引。”", "“喜欢你这件事，就像呼吸一样自然，无法停止。”", "“你在哪里，我的视线和心就在哪里。”", "“即使闭上眼，我的脑海里也全是你的影子。”",
+            "“我对这世间的一切都充满了好奇，但最让我着迷的，唯有你。”", "“你的好，只有我知道，我也不想让别人知道。”", "“这辈子最疯狂的事，大概就是爱上了你，并且一发不可收拾。”", "“无论我们相隔多远，两颗心始终紧紧相连。”", "“我的人生因为你而变得与众不同，光彩夺目。”",
+            "“这宇宙间的所有星光，都不及你眼中的一抹柔情。”", "“你是我生命线里，最长久的那一次心跳。”", "“我的浪漫仅存一丝，全都在初见你时消耗殆尽。”", "“我想把余生，都折叠进写给你的情书里。”", "“爱上你之后，所有的风景都成了陪衬。”",
+            "“我将玫瑰藏于身后，只为把全世界的春天都送给你。”", "“别人都祝你快乐，而我只愿做你的快乐。”", "“我不想做这世界的主角，我只想做你世界里的唯一。”", "“你是我平淡岁月里的惊鸿一瞥，也是我漫长岁月里的久处不厌。”", "“我愿化身石桥，受五百年风吹，五百年日晒，只求你从桥上走过。”",
+            "“我的爱，是细水长流，也是惊涛骇浪，全是为了你。”", "“遇见你，是我这辈子唯一不用犹豫的选择。”", "“只要是你，哪怕前方是深渊，我也毫不退缩。”", "“你是我穷极一生也做不完的梦。”", "“在这漫长而又短暂的一生中，我想每天都对你说早安。”",
+            "“想做你心头的朱砂痣，也做你窗前的白月光。”", "“这世间美好的事物有太多，但能让我心动的，只有你一个。”", "“我想牵你的手，从心动到古稀。”", "“你不需要多好，我喜欢就好；我没有多好，你不嫌弃就好。”", "“我这一生只有两个愿望：你在身边，在你身边。”",
+            "“只要和你在一起，每一天都是情人节。”", "“我对你的爱，是藏不住的欢喜，是说不完的情话。”", "“你是我无论如何都不想失去的人。”", "“这世界那么大，遇到你，我花光了所有的运气。”", "“我爱你，不是因为你是谁，而是因为我在你面前可以是谁。”",
+            "“我想成为你醒来第一个看到的人，睡前最后一个吻过的人。”", "“你是我生命中最美丽的音符，谱写着我们共同的乐章。”", "“我想把你装进我的口袋，去哪里都带着你。”", "“你是我黑夜里的明灯，指引我找到回家的路。”", "“这世间的温柔，有一半是微风，另一半是你。”",
+            "“我愿意为你放弃一切，只要你愿意和我在一起。”", "“你的微笑，是我治愈一切伤痛的良药。”", "“想和你去世界尽头，看这世间的繁华与落寂。”", "“你是我生命中不可多得的瑰宝，我会用一生去珍藏。”", "“我对你的爱，如同呼吸一样自然，不可或缺。”",
+            "“你是我在这喧嚣世界里，唯一的一片净土。”", "“我想把你写在我的日记里，成为我最珍贵的回忆。”", "“你是我在这个世界上，最想守护的秘密。”", "“你的出现，让我懂得了什么是真正的幸福。”", "“我愿意做你的太阳，温暖你的每一个明天。”",
+            "“你是我在这浩瀚星空下，唯一想寻找的流星。”", "“我想和你一起走过每一条街道，看遍每一处风景。”", "“你是我生命中最大的惊喜，让我对未来充满了期待。”", "“我对你的爱，如同这江水，连绵不绝。”", "“你是我在这世界上，最深的眷恋和牵挂。”",
+            "“我想成为你生命里的阳光，驱散你所有的阴霾。”", "“你的每一句话，每一个动作，都牵动着我的心。”", "“你是我生命中最美丽的烟火，虽然短暂，却足以让我铭记一生。”", "“我想和你一起慢慢变老，回忆我们共同走过的岁月。”", "“你是我在这个世界上，唯一的避风港。”",
+            "“我对你的爱，如同这高山，坚定不移。”", "“你是我生命中最温柔的微风，抚平了我所有的创伤。”", "“我想和你一起去看海，听海浪的声音。”", "“你是我生命中最美丽的星光，照亮了我的世界。”", "“我想和你一起去旅行，走遍这个世界的每一个角落。”",
+            "“你是我生命中最大的幸运，让我遇到了最好的你。”", "“我对你的爱，如同这花朵，绚丽多彩。”", "“你是我生命中最重要的决定，我永远不会后悔。”", "“我想和你一起度过每一个平淡的日子。”", "“你是我在这个世界上，唯一的精神寄托。”",
+            "“我对你的爱，如同这阳光，温暖而耀眼。”", "“你是我生命中最美妙的相遇，让我感激上苍。”", "“我想和你一起看每一场雪，感受这世界的纯洁。”", "“你是我生命中最坚强的后盾，让我无所畏惧。”", "“你是我生命中最温馨的港湾，让我不再漂泊。”",
+            "“我对你的爱，如同这星辰，璀璨而永恒。”", "“你是我生命中最美好的缘分，让我珍惜每一天。”", "“我想和你一起走过每一个春夏秋冬，体验这四季的变换。”", "“你是我生命中最柔软的软肋，让我变得更加勇敢。”", "“你是我在这个世界上，唯一的灵魂伴侣，懂我所有的心思。”",
+            "“若我化作清风，必定向你吹拂，只因我的本能是奔向你。”", "“只要看着你，我眼底的冰雪就能瞬间融化成春水。”", "“你站在那里，什么都不做，我的世界就已经为你天翻地覆。”", "“这漫漫一生，若没有你，便只是一场徒劳的呼吸。”", "“爱你是这浩瀚宇宙赋予我最神圣的宿命。”"
+        ];
+        function initLoveQuote() {
+            let quotePool = JSON.parse(localStorage.getItem('qinghe_quote_pool_v5'));
+            if (!quotePool || quotePool.length === 0) {
+                quotePool = Array.from({length: loveQuotes.length}, (_, i) => i);
+                for (let i = quotePool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [quotePool[i], quotePool[j]] = [quotePool[j], quotePool[i]];
+                }
+            }
+            const selectedIndex = quotePool.pop();
+            localStorage.setItem('qinghe_quote_pool_v5', JSON.stringify(quotePool));
+            document.getElementById('love-quote').innerText = loveQuotes[selectedIndex];
+        }
+    </script>
+</body>
+</html>
