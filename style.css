@@ -1,0 +1,157 @@
+@font-face {
+  font-family: 'LXGW WenKai';
+  src: url('font/lxgw.ttf') format('truetype');
+  font-display: swap;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+:root{
+  --glass-bg: rgba(255,255,255,0.15);
+  --glass-border: rgba(255,255,255,0.35);
+  --purple: #c9a7ff;
+  --pink: #ffc0e0;
+}
+
+html{scroll-behavior:smooth;}
+body{
+  font-family:'LXGW WenKai','PingFang SC','Microsoft YaHei',sans-serif;
+  min-height:100vh; overflow-x:hidden;
+  color:#5a4a6a;
+  background:linear-gradient(-45deg,#f8e6ff,#ffe0f0,#e8d5ff,#ffd6e8,#f0e0ff);
+  background-size:400% 400%;
+  animation:bgFlow 22s ease infinite;
+}
+@keyframes bgFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+#starfield{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+.light-spots{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.spot{position:absolute;border-radius:50%;filter:blur(60px);opacity:.5;animation:float 14s ease-in-out infinite;}
+.s1{width:300px;height:300px;background:#e0b0ff;top:10%;left:5%;}
+.s2{width:250px;height:250px;background:#ffb0d8;top:60%;right:10%;animation-delay:-4s;}
+.s3{width:200px;height:200px;background:#d0c0ff;bottom:15%;left:30%;animation-delay:-8s;}
+.s4{width:180px;height:180px;background:#ffc8e8;top:30%;right:30%;animation-delay:-2s;}
+@keyframes float{0%,100%{transform:translateY(0) translateX(0)}50%{transform:translateY(-40px) translateX(20px)}}
+
+/* 标题 */
+.site-title{position:relative;z-index:5;text-align:center;padding:40px 20px 20px;}
+.gradient-title{
+  font-size:clamp(48px,10vw,96px);font-weight:700;letter-spacing:4px;
+  background:linear-gradient(120deg,#b47cff,#ff8fc7,#a78bff,#ff9ed4,#b47cff);
+  background-size:300% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 5s linear infinite, breathe 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 20px rgba(200,150,255,.6));
+  text-shadow:0 2px 30px rgba(255,180,220,.4);
+}
+.gradient-title .big{font-size:1.15em;}
+@keyframes shine{to{background-position:300% center}}
+@keyframes breathe{0%,100%{filter:drop-shadow(0 0 15px rgba(200,150,255,.5))}50%{filter:drop-shadow(0 0 35px rgba(255,150,220,.85))}}
+
+.timer{
+  margin-top:14px;font-size:clamp(14px,3.5vw,20px);color:#8a6aaa;
+  background:var(--glass-bg);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  display:inline-block;padding:10px 24px;border-radius:30px;
+  border:1px solid var(--glass-border);
+  box-shadow:0 4px 20px rgba(180,140,220,.2);
+}
+
+/* 大卡片 */
+.big-card{
+  position:relative;z-index:5;max-width:1100px;margin:20px auto 60px;
+  padding:30px;border-radius:36px;
+  background:rgba(255,255,255,0.18);
+  backdrop-filter:blur(30px) saturate(160%);-webkit-backdrop-filter:blur(30px) saturate(160%);
+  border:1px solid rgba(255,255,255,0.4);
+  box-shadow:0 20px 60px rgba(180,140,220,.28), inset 0 1px 2px rgba(255,255,255,.6);
+}
+
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.mini-card{position:relative;overflow:hidden;
+  min-height:90px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(255,255,255,0.25),rgba(255,255,255,0.1));
+  backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);
+  border:1px solid rgba(255,255,255,0.4);
+  box-shadow:0 8px 24px rgba(180,140,220,.18), inset 0 1px 1px rgba(255,255,255,.5);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  cursor:pointer;padding:16px;
+  transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  animation:cardFloat 5s ease-in-out infinite;
+}
+.mini-card:nth-child(odd){animation-delay:-1.5s;}
+.mini-card:nth-child(3n){animation-delay:-2.8s;}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.mini-card:hover{transform:translateY(-8px) scale(1.03);box-shadow:0 16px 40px rgba(200,140,230,.35);}
+.mini-card:active{transform:scale(.97);}
+
+.mini-card.full{grid-column:1/-1;}
+.mini-card .icon{width:40px;height:40px;filter:drop-shadow(0 2px 6px rgba(120,80,160,.25));}
+.mini-card .label{font-size:15px;font-weight:600;color:#6a5488;}
+.mini-card .sub{font-size:12px;color:#9a80b8;word-break:break-all;text-align:center;}
+
+/* hover 流光 */
+.mini-card::before{content:'';position:absolute;top:0;left:-100%;width:80%;height:100%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);
+  transition:left .6s;pointer-events:none;}
+.mini-card:hover::before{left:120%;}
+
+/* 发光边缘呼吸 */
+.mini-card::after{content:'';position:absolute;inset:0;border-radius:22px;pointer-events:none;
+  box-shadow:0 0 0 1px rgba(255,255,255,.3);animation:edgeGlow 4s ease-in-out infinite;}
+@keyframes edgeGlow{0%,100%{box-shadow:0 0 8px rgba(220,180,255,.3)}50%{box-shadow:0 0 20px rgba(255,180,230,.6)}}
+
+/* 水波纹 */
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.5);transform:scale(0);animation:rippleAnim .6s ease-out;pointer-events:none;}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0}}
+
+/* 可编辑文本卡片 */
+.mini-card.editable-text{min-height:120px;}
+.mini-card.editable-text textarea{width:100%;height:100%;border:none;background:transparent;resize:none;color:#6a5488;font-family:inherit;font-size:14px;outline:none;}
+
+/* 时光胶囊 */
+.capsule{margin-top:30px;padding:24px;border-radius:26px;
+  background:rgba(255,255,255,0.16);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.35);}
+.capsule-title{display:flex;align-items:center;gap:8px;color:#7a5aa0;font-size:22px;margin-bottom:16px;}
+.capsule-form input,.capsule-form textarea{width:100%;padding:12px 16px;margin-bottom:10px;border-radius:16px;
+  border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.3);color:#6a5488;font-family:inherit;outline:none;}
+.capsule-form textarea{min-height:70px;resize:vertical;}
+.capsule-actions{display:flex;gap:12px;align-items:center;}
+.img-btn{display:flex;align-items:center;gap:6px;padding:10px 18px;border-radius:16px;background:rgba(255,255,255,.35);cursor:pointer;color:#7a5aa0;font-size:14px;}
+.send-btn{margin-left:auto;padding:10px 30px;border:none;border-radius:16px;cursor:pointer;color:#fff;font-family:inherit;font-size:15px;
+  background:linear-gradient(120deg,#c48fff,#ff9ed4);box-shadow:0 4px 16px rgba(200,140,230,.4);transition:transform .2s;}
+.send-btn:active{transform:scale(.94);}
+
+.capsule-list{margin-top:20px;display:flex;flex-direction:column;gap:14px;}
+.capsule-item{padding:16px;border-radius:18px;background:rgba(255,255,255,.22);border:1px solid rgba(255,255,255,.4);}
+.capsule-item .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.capsule-item .nick{font-weight:600;color:#7a5aa0;}
+.capsule-item .meta{font-size:12px;color:#a890c0;}
+.capsule-item .body{color:#6a5488;line-height:1.6;word-break:break-word;}
+.capsule-item .body img{max-width:100%;border-radius:12px;margin-top:8px;}
+.capsule-item .body video{max-width:100%;border-radius:12px;margin-top:8px;}
+
+/* 弹窗 */
+.modal-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;
+  background:rgba(120,90,150,.3);backdrop-filter:blur(8px);}
+.modal{width:min(90vw,420px);padding:28px;border-radius:26px;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,.6);
+  box-shadow:0 20px 60px rgba(150,110,190,.4);}
+.modal h3{color:#7a5aa0;margin-bottom:16px;text-align:center;}
+.modal input,.modal textarea{width:100%;padding:12px 16px;margin-bottom:12px;border-radius:14px;border:1px solid #e0d0f0;font-family:inherit;outline:none;}
+.modal .btns{display:flex;gap:12px;}
+.modal button{flex:1;padding:12px;border:none;border-radius:14px;cursor:pointer;font-family:inherit;font-size:15px;}
+.modal .ok{background:linear-gradient(120deg,#c48fff,#ff9ed4);color:#fff;}
+.modal .cancel{background:#eee;color:#888;}
+
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);z-index:200;
+  padding:12px 28px;border-radius:20px;background:rgba(120,80,160,.85);color:#fff;font-size:14px;
+  backdrop-filter:blur(10px);opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(-10px);}
+
+@media(max-width:640px){
+  .cards-grid{gap:12px;}
+  .big-card{padding:18px;margin:14px;border-radius:28px;}
+  .mini-card{min-height:80px;}
+}

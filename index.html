@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>清禾后花园</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="starfield"></canvas>
+<div class="light-spots">
+  <div class="spot s1"></div>
+  <div class="spot s2"></div>
+  <div class="spot s3"></div>
+  <div class="spot s4"></div>
+</div>
+
+<!-- 标题 -->
+<header class="site-title" id="siteTitle">
+  <h1 class="gradient-title">
+    <span class="big">清禾</span><span class="small">后花园</span>
+  </h1>
+  <div class="timer" id="timer">已相守 加载中...</div>
+</header>
+
+<!-- 大悬浮卡片 -->
+<main class="big-card" id="bigCard">
+  <div class="cards-grid" id="cardsGrid"></div>
+
+  <!-- 时光胶囊留言板 -->
+  <section class="capsule" id="capsule">
+    <h2 class="capsule-title">
+      <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 15h-2v-2h2zm0-4h-2V7h2z"/></svg>
+      时光胶囊
+    </h2>
+    <div class="capsule-form">
+      <input type="text" id="capName" placeholder="昵称" maxlength="20">
+      <textarea id="capMsg" placeholder="留言内容（支持 [img]链接[/img] [video]链接[/video]）"></textarea>
+      <div class="capsule-actions">
+        <label class="img-btn">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3L14.5 12l4.5 6H5z"/></svg>
+          图片
+          <input type="file" id="capImg" accept="image/*" hidden>
+        </label>
+        <button id="capSend" class="send-btn">发送</button>
+      </div>
+    </div>
+    <div class="capsule-list" id="capsuleList"></div>
+  </section>
+</main>
+
+<div id="rippleContainer"></div>
+<script src="crypto.js"></script>
+<script src="github.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
