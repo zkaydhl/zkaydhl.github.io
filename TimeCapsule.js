@@ -1,1 +1,0 @@
-window.__cap="89SAVy12YD/YNK/T7hKWGH7NHMC/tGnKtcimfokN";
